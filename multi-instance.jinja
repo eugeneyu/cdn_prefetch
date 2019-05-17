@@ -1,0 +1,33 @@
+resources:
+
+{% for i in properties['zones'] %}
+- type: compute.v1.instance
+  name: {{ properties["instance-name"] }}-{{ i }}
+  properties:
+     machineType: zones/{{ i }}/machineTypes/{{ properties["machineType"] }}
+     zone: {{ i }}
+     metadata:
+       items:
+       - key: startup-script
+         value: |
+           #!/bin/bash
+           useradd -d /home/prefetch -m -s "/bin/bash" prefetch
+           ls /home/prefetch/.ssh || mkdir /home/prefetch/.ssh
+           echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC/OSmBuUm2Vnup5Yy8/TMe6+/A3SzVzLU4zpAc0y4eLj3XCzccZ+O1WSyoaEaB1aZyb5VewRNqikPd6pHi7b79IvjvPZeA5WUzbB8RUYjgZAZf1FSGcPVVKQUG6qDE3Ot55tI5Ho8+UmgeNvJzwmq8olcyVcSWeCACyqMru1RZloQ09kJk3z1tM7qG09jhilwGMiyg/lFHRAwbMI7ktMorJTZSH8g4vNtuu3747u9SUtnXMPbGvEtEWeuK6V/JABDb+zjv3D0kfQEfpWeMB5uuQF7UftidWLaGy0XjqT4MiMXFlD1DCwMHfteYVG/d/oz3LlvoOBHem/LsokoOZ/43 prefetch" >> /home/prefetch/.ssh/authorized_keys
+     networkInterfaces:
+       - network: global/networks/default
+         accessConfigs:
+         - name: External-IP
+           type: ONE_TO_ONE_NAT
+     disks:
+      - deviceName: boot
+        type: PERSISTENT
+        boot: true
+        autoDelete: true
+        initializeParams:
+          diskName: boot
+          sourceImage: https://www.googleapis.com/compute/v1/projects/debian-cloud/global/images/family/debian-9
+     tags:
+       items:
+         - benchmark
+{% endfor %}

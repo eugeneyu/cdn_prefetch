@@ -1,0 +1,16 @@
+# Execution：
+# gcloud deployment-manager deployments create benchmark-multi-deployment --config benchmark-multi-config.yaml
+
+imports:
+  - path: multi-instance.jinja
+resources:
+- name: benchmark
+  type: multi-instance.jinja
+  properties:
+    zones: ['asia-east1-a', 'asia-east2-a', 'asia-northeast1-a', 'asia-northeast2-a', 'asia-south1-a',
+    'asia-southeast1-a', 'australia-southeast1-a', 'europe-north1-a', 'europe-west1-b',
+    'europe-west2-a', 'europe-west3-a', 'europe-west4-a', 'northamerica-northeast1-a',
+    'southamerica-east1-a', 'us-central1-a', 'us-east1-b', 'us-east4-a', 'us-west1-a' , 'us-west2-a'
+    ]
+    machineType: f1-micro
+    instance-name: cdn-prefetch
