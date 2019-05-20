@@ -18,7 +18,7 @@ logging.getLogger("").addHandler(console)
 logger = logging.getLogger(__name__)
 
 
-KEY = '/home/eugeneyu/.ssh/prefetch_key'
+KEY = './prefetch_key'
 #NODES = ['35.194.113.217', '34.97.136.225']
 
 # Create nodes.txt with
