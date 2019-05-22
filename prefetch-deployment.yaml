@@ -14,9 +14,10 @@ spec:
     metadata:
       labels:
         run: prefetch
+        app: prefetch
     spec:
       containers:
-      - image: gcr.io/youzhi-lab/cdn_prefetch:0.1
+      - image: gcr.io/youzhi-lab/cdn_prefetch:v0.3
         imagePullPolicy: IfNotPresent
         name: prefetch
         resources: {}
@@ -30,3 +31,4 @@ spec:
       - name: prefetch-key-volume
         secret:
           secretName: prefetch-key
+          defaultMode: 256
