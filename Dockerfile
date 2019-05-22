@@ -7,7 +7,6 @@ RUN python3.7 -m pip install Flask-APScheduler --user
 WORKDIR /root
 COPY prefetch_api_aps.py ./
 COPY nodes.txt ./
-COPY prefetch_key ./
 ENV TZ=Asia/Shanghai
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 CMD ["python3.7", "./prefetch_api_aps.py"]

@@ -18,24 +18,17 @@ logging.getLogger("").addHandler(console)
 logger = logging.getLogger(__name__)
 
 
-KEY = './prefetch_key'
+KEY = '/etc/prefetch-key/prefetch_key'
 #NODES = ['35.194.113.217', '34.97.136.225']
 
 # Create nodes.txt with
 # gcloud compute instances list --filter="name~'cdn-prefetch*'" --format="csv[no-heading](name,EXTERNAL_IP)" > nodes.txt
-NODES = []
-with open('nodes.txt') as f:
-	for line in f:
-		name, ip = line.partition(",")[::2]
-		node = {}
-		node['name'] = name.strip()
-		node['ip'] = ip.strip()
-		NODES.append(node)
+NODES_LIST_FILE = './nodes.txt'
 
 
 
 def prefetch_on_node(url, node_ip):
-	cmd = "ssh -oStrictHostKeyChecking=no -i {0} prefetch@{1} curl {2} -o download 2>&1".format(KEY, node_ip, url)
+	cmd = "ssh -oStrictHostKeyChecking=no -i {0} prefetch@{1} curl {2} 2>&1".format(KEY, node_ip, url)
 	#print(node_ip + ": " + cmd)
 	logger.info(node_ip + ": " + cmd)
 	proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
@@ -53,7 +46,15 @@ def helloWorld():
 @app.route('/prefetch', methods=['GET', 'POST'])
 def prefetch():
 	url = request.args.get('url')
-	for node in NODES:
+	nodes = []
+	with open(NODES_LIST_FILE) as f:
+		for line in f:
+			name, ip = line.partition(",")[::2]
+			node = {}
+			node['name'] = name.strip()
+			node['ip'] = ip.strip()
+			nodes.append(node)
+	for node in nodes:
 		app.apscheduler.add_job(func=prefetch_on_node, trigger='date', args=[url, node['ip']], 
 			misfire_grace_time=20, id='ip-'+node['ip']+'-'+str(calendar.timegm(time.gmtime())))
 

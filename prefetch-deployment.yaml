@@ -1,0 +1,32 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: prefetch
+  name: prefetch
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: prefetch
+  template:
+    metadata:
+      labels:
+        run: prefetch
+    spec:
+      containers:
+      - image: gcr.io/youzhi-lab/cdn_prefetch:0.1
+        imagePullPolicy: IfNotPresent
+        name: prefetch
+        resources: {}
+        volumeMounts:
+          - name: prefetch-key-volume
+            mountPath: /etc/prefetch-key
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      volumes:
+      - name: prefetch-key-volume
+        secret:
+          secretName: prefetch-key
