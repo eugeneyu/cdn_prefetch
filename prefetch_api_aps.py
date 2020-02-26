@@ -35,7 +35,7 @@ def prefetch_on_node(url, node_ip):
 	out, err = proc.communicate()
 	#print(node_ip + ": " + out)
 	logger.info(node_ip + " OUT: " + out[:20])
-	if err
+	if err:
 		logger.info(node_ip + " ERR: " + err)
 	return out
 
