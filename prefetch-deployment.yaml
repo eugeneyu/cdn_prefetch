@@ -17,7 +17,7 @@ spec:
         app: prefetch
     spec:
       containers:
-      - image: gcr.io/youzhi-lab/cdn_prefetch:0.1
+      - image: gcr.io/youzhi-lab/cdn_prefetch:latest
         imagePullPolicy: IfNotPresent
         name: prefetch
         resources: {}
