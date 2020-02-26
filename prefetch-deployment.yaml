@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - image: gcr.io/youzhi-lab/cdn_prefetch:latest
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         name: prefetch
         resources: {}
         volumeMounts:
