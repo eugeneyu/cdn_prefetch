@@ -40,4 +40,4 @@ Until the external IP is displayed
 
 ## Send CDN prefetch request
 
-http://&lt;PREFETCH SERVICE IP&gt;/prefetch?url=http://34.96.65.189/do_not_delete/test.txt
+http://&lt;PREFETCH SERVICE IP&gt;/prefetch?url=http://35.244.150.103/image/demo-image.jpg
