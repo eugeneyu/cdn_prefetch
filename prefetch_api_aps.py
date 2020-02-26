@@ -30,11 +30,13 @@ NODES_LIST_FILE = './nodes.txt'
 def prefetch_on_node(url, node_ip):
 	cmd = "ssh -oStrictHostKeyChecking=no -i {0} prefetch@{1} curl {2} 2>&1".format(KEY, node_ip, url)
 	#print(node_ip + ": " + cmd)
-	logger.info(node_ip + ": " + cmd)
+	logger.info(node_ip + " CMD: " + cmd)
 	proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
 	out, err = proc.communicate()
 	#print(node_ip + ": " + out)
-	logger.info(node_ip + ": " + out.decode("utf-8"))
+	logger.info(node_ip + " OUT: " + out[:20])
+	if err
+		logger.info(node_ip + " ERR: " + err)
 	return out
 
 
