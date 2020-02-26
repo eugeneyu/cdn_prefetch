@@ -16,16 +16,15 @@ gcloud deployment-manager deployments delete cdn-prefetch
 
 ## Build image
 
-<!--
 gcloud compute instances list --filter="name~'cdn-prefetch*'" --format="csv\[no-heading\](name,EXTERNAL_IP)" > nodes.txt  
 gcloud builds submit --tag gcr.io/youzhi-lab/cdn_prefetch:0.1 
--->
 
 ## Run K8s deployment with image
 
+<!--
 kubectl run --replicas=1 --image=gcr.io/youzhi-lab/cdn_prefetch:0.1 --labels="app=prefetch" prefetch  
+-->
 kubectl create secret generic prefetch-key --from-file ~/.ssh/prefetch_key  
-
 
 kubectl apply -f prefetch-deployment.yaml
 
