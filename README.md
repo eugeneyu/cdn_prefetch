@@ -17,7 +17,9 @@ gcloud deployment-manager deployments delete cdn-prefetch
 ## Build image
 
 gcloud compute instances list --filter="name~'cdn-prefetch*'" --format="csv\[no-heading\](name,EXTERNAL_IP)" > nodes.txt  
-gcloud builds submit --tag gcr.io/youzhi-lab/cdn_prefetch:0.1 
+
+export PROJECT_ID=\$(gcloud config get-value project)   
+gcloud builds submit --tag gcr.io/\<PROJECT_ID\>/cdn_prefetch:0.1  
 
 ## Run K8s deployment with image
 
