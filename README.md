@@ -23,4 +23,4 @@ kubectl apply -f prefetch-service.yaml
 
 ## Send CDN prefetch request
 
-http://<PREFETCH SERVICE IP>/prefetch?url=http://34.96.65.189/do_not_delete/test.txt
+http://&lt;PREFETCH SERVICE IP&gt;/prefetch?url=http://34.96.65.189/do_not_delete/test.txt
