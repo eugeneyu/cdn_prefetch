@@ -1,6 +1,7 @@
 from flask import Flask, request
 import subprocess
 import logging
+import sys
 import calendar
 import time
 from flask_apscheduler import APScheduler
@@ -12,10 +13,33 @@ scheduler.start()
 
 LOG = "/var/log/prefetch.log"  
 logging.basicConfig(filename=LOG, filemode="w", level=logging.DEBUG, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')  
-console = logging.StreamHandler()  
-console.setLevel(logging.DEBUG)  
-logging.getLogger("").addHandler(console)
+#console = logging.StreamHandler()  
+#console.setLevel(logging.DEBUG)  
+#logging.getLogger("").addHandler(console)
+#logger = logging.getLogger(__name__)
+
+class LessThanFilter(logging.Filter):
+    def __init__(self, exclusive_maximum, name=""):
+        super(LessThanFilter, self).__init__(name)
+        self.max_level = exclusive_maximum
+
+    def filter(self, record):
+        #non-zero return means we log this message
+        return 1 if record.levelno < self.max_level else 0
+
+#Get the root logger
 logger = logging.getLogger(__name__)
+#Have to set the root logger level, it defaults to logging.WARNING
+logger.setLevel(logging.NOTSET)
+
+logging_handler_out = logging.StreamHandler(sys.stdout)
+logging_handler_out.setLevel(logging.DEBUG)
+logging_handler_out.addFilter(LessThanFilter(logging.WARNING))
+logger.addHandler(logging_handler_out)
+
+logging_handler_err = logging.StreamHandler(sys.stderr)
+logging_handler_err.setLevel(logging.WARNING)
+logger.addHandler(logging_handler_err)
 
 
 KEY = '/etc/prefetch-key/prefetch_key'
@@ -34,9 +58,9 @@ def prefetch_on_node(url, node_ip):
 	proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
 	out, err = proc.communicate()
 	#print(node_ip + ": " + out)
-	logger.info(node_ip + " OUT: " + out[:20])
+	logger.info(node_ip + " OUT bytes: " + len(out))
 	if err:
-		logger.info(node_ip + " ERR: " + err)
+		logger.error(node_ip + " ERR: " + err)
 	return out
 
 
