@@ -9,7 +9,7 @@ The below tests proves the effectiveness of pre-fetching.
  - 缓存预热是通过GCE实例请求相应文件
  - 文件下载均执行在新加坡EC2
 
-http://35.244.143.158/googlework_short_1.mp4   无预热
+### http://35.244.143.158/googlework_short_1.mp4   无预热
 
 curl -v http://35.244.143.158/googlework_short_1.mp4 --output file.mp4
 
@@ -20,7 +20,7 @@ curl -v http://35.244.143.158/googlework_short_1.mp4 --output file.mp4
 100 1455k  100 1455k    0     0  24.9M      0 --:--:-- --:--:-- --:--:-- 24.9M
 
 
-http://35.244.143.158/googlework_short_2.mp4   在印度区域预热
+### http://35.244.143.158/googlework_short_2.mp4   在印度区域预热
 
 curl -v http://35.244.143.158/googlework_short_2.mp4 --output file.mp4
 
@@ -31,7 +31,7 @@ curl -v http://35.244.143.158/googlework_short_2.mp4 --output file.mp4
 100 1455k  100 1455k    0     0  43.0M      0 --:--:-- --:--:-- --:--:-- 43.0M
 
 
-http://35.244.143.158/googlework_short_3.mp4   在新加坡区域预热
+### http://35.244.143.158/googlework_short_3.mp4   在新加坡区域预热
 
 curl -v http://35.244.143.158/googlework_short_3.mp4 --output file.mp4
 
