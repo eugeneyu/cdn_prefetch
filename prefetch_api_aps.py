@@ -58,7 +58,7 @@ def prefetch_on_node(url, node_ip):
 	proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
 	out, err = proc.communicate()
 	#print(node_ip + ": " + out)
-	logger.info(node_ip + " OUT bytes: " + len(out))
+	logger.info(node_ip + " OUT bytes: " + str(len(out)))
 	if err:
 		logger.error(node_ip + " ERR: " + err)
 	return out
